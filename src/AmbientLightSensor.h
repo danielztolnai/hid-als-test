@@ -18,8 +18,8 @@ typedef struct _ALS_FEATURE_REPORT
 
 	// properties specific to this sensor
 	uint16_t usIlluminanceChangeSensitivity;
-	uint16_t usIlluminanceMaximum;
-	uint16_t usIlluminanceMinimum;
+	uint32_t usIlluminanceMaximum;
+	uint32_t usIlluminanceMinimum;
 
 } ALS_FEATURE_REPORT, *PALS_FEATURE_REPORT;
 
@@ -31,7 +31,7 @@ typedef struct _ALS_INPUT_REPORT
 	uint8_t ucEventType;
 
 	// values specific to this sensor
-	uint16_t usIlluminanceValue;
+	uint32_t usIlluminanceValue;
 
 } ALS_INPUT_REPORT, *PALS_INPUT_REPORT;
 
@@ -122,16 +122,16 @@ static const uint8_t _hidMultiReportDescriptorAmbientLightSensor[] PROGMEM = {
 
 	        HID_USAGE_SENSOR_DATA(HID_USAGE_SENSOR_DATA_LIGHT_ILLUMINANCE, HID_USAGE_SENSOR_DATA_MOD_MAX),
 	        HID_LOGICAL_MIN_8(0),
-	        HID_LOGICAL_MAX_16(0xFF, 0xFF),
-	        HID_REPORT_SIZE(16),
+	        HID_LOGICAL_MAX_32(0xFF, 0xFF, 0xFF, 0xFF),
+	        HID_REPORT_SIZE(32),
 	        HID_REPORT_COUNT(1),
 	        HID_UNIT_EXPONENT(0x0F), // scale default unit to provide 1 digit past decimal point
 	        HID_FEATURE(Data_Var_Abs),
 
 	        HID_USAGE_SENSOR_DATA(HID_USAGE_SENSOR_DATA_LIGHT_ILLUMINANCE, HID_USAGE_SENSOR_DATA_MOD_MIN),
 	        HID_LOGICAL_MIN_8(0),
-	        HID_LOGICAL_MAX_16(0xFF, 0xFF),
-	        HID_REPORT_SIZE(16),
+	        HID_LOGICAL_MAX_32(0xFF, 0xFF, 0xFF, 0xFF),
+	        HID_REPORT_SIZE(32),
 	        HID_REPORT_COUNT(1),
 	        HID_UNIT_EXPONENT(0x0F), // scale default unit to provide 1 digit past decimal point
 	        HID_FEATURE(Data_Var_Abs),
@@ -172,9 +172,9 @@ static const uint8_t _hidMultiReportDescriptorAmbientLightSensor[] PROGMEM = {
 
             HID_USAGE_SENSOR_DATA_LIGHT_ILLUMINANCE,
             HID_LOGICAL_MIN_8(0),
-            HID_LOGICAL_MAX_16(0xFF, 0xFF),
+            HID_LOGICAL_MAX_32(0xFF, 0xFF, 0xFF, 0xFF),
             HID_UNIT_EXPONENT(0x0F), // scale default unit to provide 1 digit past decimal point
-            HID_REPORT_SIZE(16),
+            HID_REPORT_SIZE(32),
             HID_REPORT_COUNT(1),
             HID_INPUT(Data_Var_Abs),
 
@@ -194,7 +194,7 @@ public:
 
 	inline void end(void) {}
 
-	inline void update(uint16_t value) {
+	inline void update(uint32_t value) {
 		this->illuminance_value = value;
 	}
 
@@ -210,7 +210,7 @@ public:
 	}
 
 protected:
-	uint16_t illuminance_value = 0;
+	uint32_t illuminance_value = 0;
 	unsigned long last_update = 0;
 	const unsigned long update_interval = 100;
 

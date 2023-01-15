@@ -16,7 +16,7 @@ void loop()
 {
     if (bh1750.measurementReady()) {
         auto lux = bh1750.readLightLevel();
-        ambient_light_sensor.update(static_cast<uint16_t>(lux));
+        ambient_light_sensor.update(static_cast<uint32_t>(lux * 10));
     }
 
     ambient_light_sensor.handle();
