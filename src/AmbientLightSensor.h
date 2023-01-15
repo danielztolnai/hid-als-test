@@ -195,13 +195,14 @@ public:
 	inline void end(void) {}
 
 	inline void update(uint32_t value) {
+		this->ready = true;
 		this->illuminance_value = value;
 	}
 
 	inline void handle() {
 		auto time = millis();
 
-		if (this->last_update + this->update_interval > time) {
+		if (!this->ready || (this->last_update + this->update_interval > time)) {
 			return;
 		}
 
@@ -213,6 +214,7 @@ protected:
 	uint32_t illuminance_value = 0;
 	unsigned long last_update = 0;
 	const unsigned long update_interval = 100;
+	bool ready = false;
 
 	inline void SendReport(void* data, int length) {
         HID().SendReport(HID_REPORTID_AMBIENTLIGHT, data, length);
