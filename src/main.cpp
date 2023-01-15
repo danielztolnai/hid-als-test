@@ -10,6 +10,8 @@ void setup()
 {
     Wire.begin();
     bh1750.begin();
+    pinMode(17, INPUT);
+    pinMode(30, INPUT);
 }
 
 void loop()
